@@ -8,6 +8,11 @@ A small, dependency-free web app for drilling the 1,000 most frequent Spanish wo
 - **Reasonable distractors**: wrong answers have the same part of speech, are close in frequency, and are never synonyms of the right answer
 - **Review mode**: words you miss are remembered (in your browser) until you get them right
 - **Word list**: searchable list of all 1000 words
+- **Verb conjugation mode**: type the right form of 79 common verbs (regular, stem-changing and irregular)
+  across 8 tenses — present, preterite, imperfect, future, conditional, present perfect, present and
+  imperfect subjunctive. Choose tenses, verb set (top 20/40/all), whether to include *vosotros*, and
+  whether accents must be exact. After each answer the whole tense is shown. Conjugations are generated
+  by the engine in `verbs.js`.
 
 Words are lemmas (dictionary forms), ranked using spoken-Spanish frequency data from
 [FrequencyWords](https://github.com/hermitdave/FrequencyWords) (OpenSubtitles corpus).

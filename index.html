@@ -70,6 +70,23 @@
   .hidden{display:none!important}
   .empty{color:var(--muted);text-align:center;padding:12px}
   .listwrap{max-height:65vh;overflow:auto;margin-top:10px}
+  .modeSeg{margin-bottom:14px}
+  .modeSeg button{padding:12px;font-weight:600}
+  .small{text-transform:none;letter-spacing:0;font-weight:400}
+  .row label{display:flex;gap:8px;align-items:center;cursor:pointer}
+  .row input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+  .tenseTag{text-align:center;margin-top:4px}
+  .tenseTag span{display:inline-block;background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 12px;font-size:.85rem;font-weight:600}
+  .person{text-align:center;font-size:1.25rem;font-weight:600;margin:-6px 0 16px;color:var(--accent)}
+  .answer{display:block;width:100%;font:500 1.3rem system-ui,sans-serif;text-align:center;padding:14px;border:1.5px solid var(--line);
+    border-radius:12px;background:var(--bg);color:var(--ink);outline:none}
+  .answer:focus{border-color:var(--ink)}
+  .answer.ok{border-color:var(--ok);background:var(--ok-bg)} .answer.bad{border-color:var(--bad);background:var(--bad-bg)}
+  .accents{display:flex;gap:6px;justify-content:center;margin:10px 0 14px;flex-wrap:wrap}
+  .accents button{width:40px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:500 1.05rem system-ui;cursor:pointer}
+  .vtable{margin:4px 0 14px;font-size:.92rem}
+  .vtable td{padding:5px 4px}
+  .vtable tr.cur td{font-weight:700;color:var(--accent)}
   footer{color:var(--muted);font-size:.8rem;text-align:center;margin-top:24px}
 </style>
 </head>
@@ -85,6 +102,11 @@
 
   <!-- SETUP -->
   <section id="setup">
+    <div class="seg modeSeg" id="modeSeg">
+      <button data-m="vocab">Vocabulary</button>
+      <button data-m="verbs">Verb conjugation</button>
+    </div>
+    <div id="vocabSetup">
     <div class="card">
       <h2>Words to include (by frequency rank)</h2>
       <div class="seg" id="rangeSeg">
@@ -105,6 +127,23 @@
         <button data-d="es-en">Spanish → English</button>
         <button data-d="en-es">English → Spanish</button>
         <button data-d="mix">Mixed</button>
+      </div>
+    </div>
+    </div>
+    <div id="verbSetup" class="hidden">
+      <div class="card">
+        <h2>Tenses <span class="small">(pick one or more)</span></h2>
+        <div class="seg multi" id="tenseSeg"></div>
+      </div>
+      <div class="card">
+        <h2>Verbs</h2>
+        <div class="seg" id="verbSetSeg">
+          <button data-v="20">Top 20</button>
+          <button data-v="40">Top 40</button>
+          <button data-v="all">All 79</button>
+        </div>
+        <div class="row"><label><input type="checkbox" id="vosotros"> Include <i>vosotros</i> (Spain)</label></div>
+        <div class="row"><label><input type="checkbox" id="strictAcc"> Accents must be exact</label></div>
       </div>
     </div>
     <div class="card">
@@ -138,6 +177,30 @@
     <button class="link" id="quitBtn">Quit quiz</button>
   </section>
 
+  <!-- VERB QUIZ -->
+  <section id="vquiz" class="hidden">
+    <div class="qmeta"><span id="vNum"></span><span id="vScore"></span></div>
+    <div class="bar"><i id="vBar"></i></div>
+    <div class="card">
+      <div class="tenseTag" id="vTense"></div>
+      <div class="prompt" id="vVerb"></div>
+      <div class="hint" id="vMeaning"></div>
+      <div class="person" id="vPerson"></div>
+      <form id="vForm" autocomplete="off">
+        <input id="vInput" class="answer" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type the verb form">
+        <div class="accents" id="accents">
+          <button type="button">á</button><button type="button">é</button><button type="button">í</button>
+          <button type="button">ó</button><button type="button">ú</button><button type="button">ñ</button><button type="button">ü</button>
+        </div>
+        <button class="primary" id="vCheck" type="submit">Check</button>
+      </form>
+      <div class="feedback" id="vFeedback"></div>
+      <div class="vtable hidden" id="vTable"></div>
+      <button class="primary hidden" id="vNext">Next</button>
+    </div>
+    <button class="link" id="vQuit">Quit quiz</button>
+  </section>
+
   <!-- RESULTS -->
   <section id="results" class="hidden">
     <div class="card">
@@ -145,7 +208,7 @@
       <div class="verdict" id="rVerdict"></div>
     </div>
     <div class="card" id="rMissedCard">
-      <h2>Words to review</h2>
+      <h2 id="rMissedTitle">Words to review</h2>
       <table id="rMissed"></table>
     </div>
     <button class="primary" id="retryMissedBtn">Retry the ones I missed</button>
@@ -165,6 +228,7 @@
 </main>
 
 <script src="words.js"></script>
+<script src="verbs.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
